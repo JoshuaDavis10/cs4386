@@ -1,0 +1,7 @@
+QUESTIONS FOR MONDAY:
+- for FACTOR node: how to indicate that ident/num/boollit are not being used (cuz for expression we just set it NULL)
+    -> would it be better to have node types for these leaves so we can set them to null? or should i just have some flag value like -999999
+       or smn?
+- for TYPE node: how to store if it's an INT or BOOL? boolean flags for each?
+- for EXPRESSION/SIMPLEEXPRESSION/TERM nodes: we will know which option of the RHS ( x | y <- for example) we are choosing based on if one of the 
+children nodes is NULL?

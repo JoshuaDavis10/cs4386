@@ -1,0 +1,8 @@
+#! /usr/bin/bash
+
+rm lex.yy.c
+rm cfg.tab.c
+rm cfg.tab.h
+bison -d cfg.y
+flex lex.l
+gcc cfg.tab.c lex.yy.c 

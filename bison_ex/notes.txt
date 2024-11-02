@@ -1,0 +1,8 @@
+give bison your context free grammar rules
+bison files are .y extension
+3 sections: similar to flex
+1. stuff that you'll need
+2. tokens? 
+3. rules for grammar
+
+you should probably google how bison works and research on your own

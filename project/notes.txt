@@ -1,0 +1,3 @@
+QUESTIONS FOR MONDAY:
+- ask him after class:
+    -> syntax error when trying to add parentheses 

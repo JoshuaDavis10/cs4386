@@ -17,6 +17,12 @@ typedef struct node_expression node_expression ;
 typedef struct node_simple_expression node_simple_expression ;
 typedef struct node_term node_term ;
 typedef struct node_factor node_factor ;
+typedef struct node_ident node_ident;
+typedef struct node_boollit node_boollit;
+typedef struct node_num node_num;
+typedef struct node_op2 node_op2;
+typedef struct node_op3 node_op3;
+typedef struct node_op4 node_op4;
 
 struct node_program {
     node_declarations* declarations;
@@ -24,7 +30,7 @@ struct node_program {
 }; 
 
 struct node_declarations {
-    char* ident;
+    node_ident* ident;
     node_type* type; //or just have it here as like char* to either 'INT' or 'BOOL' ????
     node_declarations* declarations;
 };
@@ -49,7 +55,7 @@ struct node_statement {
 };
 
 struct node_assignment {
-    char* ident;
+    node_ident* ident;
     node_expression* expression;
 };
 
@@ -74,23 +80,49 @@ struct node_write_int {
 
 struct node_expression {
     node_simple_expression* simpleExpression1;
+    node_op4* op4;
     node_simple_expression* simpleExpression2;
 };
 
 struct node_simple_expression {
     node_term* term1;
+    node_op3* op3;
     node_term* term2;
 };
 
 struct node_term {
     node_factor* factor1;
+    node_op2* op2;
     node_factor* factor2;
 };
 
 struct node_factor {
-    //TODO: ask prof about this in class... do we need nodes for ident/num/boollit just for being able to set null?
-    char* ident; //or do we need nodes for this... we might just... idk how else to set them as NULL in practice
-    int num;
-    unsigned char boollit;
+    node_ident* ident;
+    node_num* num;
+    node_boollit* boollit;
     node_expression* expression;
+};
+
+struct node_ident {
+    char* ident;
+};
+
+struct node_boollit {
+    char* boollit;
+};
+
+struct node_num {
+    unsigned int num;
+};
+
+struct node_op2 {
+    char* op2;
+};
+
+struct node_op3 {
+    char* op3;
+};
+
+struct node_op4 {
+    char* op4;
 };

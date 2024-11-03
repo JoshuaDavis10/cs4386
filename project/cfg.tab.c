@@ -70,11 +70,12 @@
 #line 1 "cfg.y"
 
     #include <stdio.h>
+    #include <stdlib.h> //for atoi()
     #include "nodes.h"
     int yylex(void);
     int yyerror(char *);
 
-#line 78 "cfg.tab.c"
+#line 79 "cfg.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -530,11 +531,11 @@ static const yytype_int8 yytranslate[] =
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_int8 yyrline[] =
+static const yytype_int16 yyrline[] =
 {
-       0,    37,    37,    40,    42,    46,    47,    50,    52,    56,
-      57,    58,    59,    63,    64,    68,    71,    73,    77,    81,
-      85,    86,    90,    91,    95,    96,   100,   101,   102,   103
+       0,    70,    70,    80,    83,    96,   105,   117,   120,   130,
+     139,   148,   157,   169,   178,   191,   202,   205,   214,   224,
+     233,   241,   255,   266,   277,   288,   299,   312,   324,   336
 };
 #endif
 
@@ -1124,8 +1125,384 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
+  case 2: /* program: PROGRAM declarations begin statementSequence END  */
+#line 70 "cfg.y"
+                                                     { 
+        printf("program: PROGRAM delcarations begin statementSequence END\n");
+        node_program* ptr = malloc(sizeof(node_program));
+        ptr->declarations = (yyvsp[-3].declarations);
+        ptr->statementSequence = (yyvsp[-1].statementSequence);
+        (yyval.program) = ptr;
+    }
+#line 1138 "cfg.tab.c"
+    break;
 
-#line 1129 "cfg.tab.c"
+  case 3: /* declarations: %empty  */
+#line 80 "cfg.y"
+              {
+        printf("declarations:\n");
+    }
+#line 1146 "cfg.tab.c"
+    break;
+
+  case 4: /* declarations: VAR ident AS type SC declarations  */
+#line 83 "cfg.y"
+                                        {
+        printf("declarations: VAR ident AS type SC declarations (ident = %s)\n", (yyvsp[-4].str));
+        node_declarations* ptr = malloc(sizeof(node_declarations));
+        node_ident* ident_ptr = malloc(sizeof(node_ident));
+        ident_ptr->ident = (yyvsp[-4].str);
+        ptr->ident = ident_ptr;
+        ptr->type = (yyvsp[-2].type);
+        ptr->declarations = (yyvsp[0].declarations);
+        (yyval.declarations) = ptr;
+    }
+#line 1161 "cfg.tab.c"
+    break;
+
+  case 5: /* type: INT  */
+#line 96 "cfg.y"
+        {
+        printf("type: INT\n");
+        node_type* ptr = malloc(sizeof(node_type));
+        //TODO: is this a good way to do this?
+        ptr->isINT = 1;
+        ptr->isBOOL = 0;
+        //TODO: is this a good way to do this?
+        (yyval.type) = ptr;
+    }
+#line 1175 "cfg.tab.c"
+    break;
+
+  case 6: /* type: BOOL  */
+#line 105 "cfg.y"
+           {
+        printf("type: BOOL\n");
+        node_type* ptr = malloc(sizeof(node_type));
+        //TODO: is this a good way to do this?
+        ptr->isINT = 0;
+        ptr->isBOOL = 1;
+        //TODO: is this a good way to do this?
+        (yyval.type) = ptr;
+    }
+#line 1189 "cfg.tab.c"
+    break;
+
+  case 7: /* statementSequence: %empty  */
+#line 117 "cfg.y"
+              {
+        printf("statementSequence:\n");
+    }
+#line 1197 "cfg.tab.c"
+    break;
+
+  case 8: /* statementSequence: statement SC statementSequence  */
+#line 120 "cfg.y"
+                                     {
+        printf("statementSequence: statement SC statementSequence\n");
+        node_statement_sequence* ptr = malloc(sizeof(node_statement_sequence));
+        ptr->statement = (yyvsp[-2].statement);
+        ptr->statementSequence = (yyvsp[0].statementSequence);
+        (yyval.statementSequence) = ptr;
+    }
+#line 1209 "cfg.tab.c"
+    break;
+
+  case 9: /* statement: assignment  */
+#line 130 "cfg.y"
+               {
+        printf("statement: assignment\n");
+        node_statement* ptr = malloc(sizeof(node_statement));
+        ptr->assignment = (yyvsp[0].assignment);
+        ptr->ifStatement = NULL;
+        ptr->whileStatement = NULL;
+        ptr->writeInt = NULL;
+        (yyval.statement) = ptr;
+    }
+#line 1223 "cfg.tab.c"
+    break;
+
+  case 10: /* statement: ifStatement  */
+#line 139 "cfg.y"
+                  {
+        printf("statement: ifStatement\n");
+        node_statement* ptr = malloc(sizeof(node_statement));
+        ptr->assignment = NULL;
+        ptr->ifStatement = (yyvsp[0].ifStatement);
+        ptr->whileStatement = NULL;
+        ptr->writeInt = NULL;
+        (yyval.statement) = ptr;
+    }
+#line 1237 "cfg.tab.c"
+    break;
+
+  case 11: /* statement: whileStatement  */
+#line 148 "cfg.y"
+                     {
+        printf("statement: whileStatement\n");
+        node_statement* ptr = malloc(sizeof(node_statement));
+        ptr->assignment = NULL;
+        ptr->ifStatement = NULL;
+        ptr->whileStatement = (yyvsp[0].whileStatement);
+        ptr->writeInt = NULL;
+        (yyval.statement) = ptr;
+    }
+#line 1251 "cfg.tab.c"
+    break;
+
+  case 12: /* statement: writeInt  */
+#line 157 "cfg.y"
+               {
+        printf("statement: writeInt\n");
+        node_statement* ptr = malloc(sizeof(node_statement));
+        ptr->assignment = NULL;
+        ptr->ifStatement = NULL;
+        ptr->whileStatement = NULL;
+        ptr->writeInt = (yyvsp[0].writeInt);
+        (yyval.statement) = ptr;
+    }
+#line 1265 "cfg.tab.c"
+    break;
+
+  case 13: /* assignment: ident ASGN expression  */
+#line 169 "cfg.y"
+                          {
+        printf("assignment: ident ASGN expression (ident = %s)\n", (yyvsp[-2].str));
+        node_assignment* ptr = malloc(sizeof(node_assignment));
+        node_ident* ident_ptr = malloc(sizeof(node_ident));
+        ident_ptr->ident = (yyvsp[-2].str);
+        ptr->ident = ident_ptr;
+        ptr->expression = (yyvsp[0].expression);
+        (yyval.assignment) = ptr;
+    }
+#line 1279 "cfg.tab.c"
+    break;
+
+  case 14: /* assignment: ident ASGN READINT  */
+#line 178 "cfg.y"
+                         {
+        printf("assignment: ident ASGN READINT (ident = %s)\n", (yyvsp[-2].str));
+        printf("assignment: ident ASGN expression (ident = %s)\n", (yyvsp[-2].str));
+        node_assignment* ptr = malloc(sizeof(node_assignment));
+        node_ident* ident_ptr = malloc(sizeof(node_ident));
+        ident_ptr->ident = (yyvsp[-2].str);
+        ptr->ident = ident_ptr;
+        ptr->expression = NULL;
+        (yyval.assignment) = ptr;
+    }
+#line 1294 "cfg.tab.c"
+    break;
+
+  case 15: /* ifStatement: IF expression THEN statementSequence elseClause END  */
+#line 191 "cfg.y"
+                                                        {
+        printf("ifStatement: IF expression THEN statmentSequence elseClause END\n");
+        node_if_statement* ptr = malloc(sizeof(node_if_statement));
+        ptr->expression = (yyvsp[-4].expression);
+        ptr->statementSequence = (yyvsp[-2].statementSequence);
+        ptr->elseClause = (yyvsp[-1].elseClause);
+        (yyval.ifStatement) = ptr;
+    }
+#line 1307 "cfg.tab.c"
+    break;
+
+  case 16: /* elseClause: %empty  */
+#line 202 "cfg.y"
+              {
+        printf("elseClause:\n");
+    }
+#line 1315 "cfg.tab.c"
+    break;
+
+  case 17: /* elseClause: ELSE statementSequence  */
+#line 205 "cfg.y"
+                             {
+        printf("elseClause: ELSE statementSequence\n");
+        node_else_clause* ptr = malloc(sizeof(node_else_clause));
+        ptr->statementSequence = (yyvsp[0].statementSequence); 
+        (yyval.elseClause) = ptr;
+    }
+#line 1326 "cfg.tab.c"
+    break;
+
+  case 18: /* whileStatement: WHILE expression DO statementSequence END  */
+#line 214 "cfg.y"
+                                              {
+        printf("whileStatement: WHILE expression DO statementSequence END\n");
+        node_while_statement* ptr = malloc(sizeof(node_while_statement));
+        ptr->expression = (yyvsp[-3].expression);
+        ptr->statementSequence = (yyvsp[-1].statementSequence); 
+        (yyval.whileStatement) = ptr;
+    }
+#line 1338 "cfg.tab.c"
+    break;
+
+  case 19: /* writeInt: WRITEINT expression  */
+#line 224 "cfg.y"
+                        {
+        printf("writeInt: expression\n");
+        node_write_int* ptr = malloc(sizeof(node_write_int));
+        ptr->expression = (yyvsp[0].expression);
+        (yyval.writeInt) = ptr;
+    }
+#line 1349 "cfg.tab.c"
+    break;
+
+  case 20: /* expression: simpleExpression  */
+#line 233 "cfg.y"
+                     {
+        printf("expression: simpleExpression\n");
+        node_expression* ptr = malloc(sizeof(node_expression));
+        ptr->simpleExpression1 = (yyvsp[0].simpleExpression);
+        ptr->simpleExpression2 = NULL;
+        ptr->op4 = NULL;
+        (yyval.expression) = ptr;
+    }
+#line 1362 "cfg.tab.c"
+    break;
+
+  case 21: /* expression: simpleExpression OP4 simpleExpression  */
+#line 241 "cfg.y"
+                                            {
+        printf("expression: ");
+        node_expression* ptr = malloc(sizeof(node_expression));
+        node_op4* op4_ptr = malloc(sizeof(node_op4));
+        op4_ptr->op4 = (yyvsp[-1].str);
+        ptr->simpleExpression1 = (yyvsp[-2].simpleExpression);
+        ptr->simpleExpression2 = (yyvsp[0].simpleExpression);
+        ptr->op4 = op4_ptr;
+        printf("simpleExpression %s simpleExpression\n", op4_ptr->op4);
+        (yyval.expression) = ptr;
+    }
+#line 1378 "cfg.tab.c"
+    break;
+
+  case 22: /* simpleExpression: term OP3 term  */
+#line 255 "cfg.y"
+                  {
+        printf("simple expression: ");
+        node_simple_expression* ptr = malloc(sizeof(node_simple_expression));
+        node_op3* op3_ptr = malloc(sizeof(node_op3));
+        op3_ptr->op3 = (yyvsp[-1].str);
+        ptr->term1 = (yyvsp[-2].term);
+        ptr->term2 = (yyvsp[0].term);
+        ptr->op3 = op3_ptr;
+        printf("term %s term\n", op3_ptr->op3);
+        (yyval.simpleExpression) = ptr;
+    }
+#line 1394 "cfg.tab.c"
+    break;
+
+  case 23: /* simpleExpression: term  */
+#line 266 "cfg.y"
+           {
+        printf("simple expression: term\n");
+        node_simple_expression* ptr = malloc(sizeof(node_simple_expression));
+        ptr->term1 = (yyvsp[0].term);
+        ptr->term2 = NULL;
+        ptr->op3 = NULL;
+        (yyval.simpleExpression) = ptr;
+    }
+#line 1407 "cfg.tab.c"
+    break;
+
+  case 24: /* term: factor OP2 factor  */
+#line 277 "cfg.y"
+                      {
+        printf("term: ");
+        node_term* ptr = malloc(sizeof(node_term));
+        node_op2* op2_ptr = malloc(sizeof(node_op2));
+        op2_ptr->op2 = (yyvsp[-1].str);
+        ptr->factor1 = (yyvsp[-2].factor);
+        ptr->factor2 = (yyvsp[0].factor);
+        ptr->op2 = op2_ptr;
+        printf("factor %s factor\n", op2_ptr->op2);
+        (yyval.term) = ptr;
+    }
+#line 1423 "cfg.tab.c"
+    break;
+
+  case 25: /* term: factor  */
+#line 288 "cfg.y"
+             {
+        printf("term: factor\n");
+        node_term* ptr = malloc(sizeof(node_term));
+        ptr->factor1 = (yyvsp[0].factor);
+        ptr->factor2 = NULL;
+        ptr->op2 = NULL;
+        (yyval.term) = ptr;
+    }
+#line 1436 "cfg.tab.c"
+    break;
+
+  case 26: /* factor: ident  */
+#line 299 "cfg.y"
+          {
+        printf("factor:");
+        node_factor* ptr = malloc(sizeof(node_factor));
+        node_ident* ident_ptr = malloc(sizeof(node_ident));
+        ident_ptr->ident = (yyvsp[0].str);
+        ptr->ident = ident_ptr;
+        printf("\tident   = %s\n", ident_ptr->ident);
+        ptr->num = NULL;
+        ptr->boollit = NULL;
+        ptr->expression = NULL;
+        (yyval.factor) = ptr;
+    
+    }
+#line 1454 "cfg.tab.c"
+    break;
+
+  case 27: /* factor: num  */
+#line 312 "cfg.y"
+          { 
+        printf("factor:"); 
+        node_factor* ptr = malloc(sizeof(node_factor));
+        node_num* num_ptr = malloc(sizeof(node_num));
+        num_ptr->num = atoi((yyvsp[0].str));
+        ptr->num = num_ptr;
+        printf("\tnum     = %u\n", num_ptr->num);
+        ptr->ident = NULL;
+        ptr->boollit = NULL;
+        ptr->expression = NULL;
+        (yyval.factor) = ptr;
+    }
+#line 1471 "cfg.tab.c"
+    break;
+
+  case 28: /* factor: boollit  */
+#line 324 "cfg.y"
+              { 
+        printf("factor:"); 
+        node_factor* ptr = malloc(sizeof(node_factor));
+        node_boollit* bool_ptr = malloc(sizeof(node_boollit));
+        bool_ptr->boollit = (yyvsp[0].str);
+        ptr->boollit = bool_ptr;
+        printf("\tboollit = %s\n", bool_ptr->boollit);
+        ptr->ident = NULL;
+        ptr->num = NULL;
+        ptr->expression = NULL;
+        (yyval.factor) = ptr;
+    }
+#line 1488 "cfg.tab.c"
+    break;
+
+  case 29: /* factor: LP expression RP  */
+#line 336 "cfg.y"
+                       {
+        printf("factor: ( expression )"); 
+        node_factor* ptr = malloc(sizeof(node_factor));
+        ptr->expression = (yyvsp[-1].expression);
+        ptr->ident = NULL;
+        ptr->num = NULL;
+        ptr->boollit = NULL;
+        (yyval.factor) = ptr;
+    }
+#line 1502 "cfg.tab.c"
+    break;
+
+
+#line 1506 "cfg.tab.c"
 
       default: break;
     }
@@ -1318,7 +1695,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 105 "cfg.y"
+#line 346 "cfg.y"
 
 int yyerror(char *s) {
   printf("yyerror : %s\n",s);

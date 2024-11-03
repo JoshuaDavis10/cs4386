@@ -1,20 +1,49 @@
 %{
+#include "nodes.h"
 #include "cfg.tab.h"
 %}
 
-ident [A-Z][A-Z0-9]*
-
+ident   [A-Z][A-Z0-9]*
+num     [1-9][0-9]*|0
+boollit false|true
+OP2     \*|div|mod
+OP3     \+|-
+OP4     =|!=|<|>|<=|>=
 %%
-[1-9][0-9]*|0   return(num);//printf("num         "); ECHO; printf("\n");
-false|true      return(boollit);//printf("boollit     "); ECHO; printf("\n");
-{ident}         return(ident);//printf("ident       "); ECHO; printf("\n");
+{num}           {
+                yylval.str = malloc(strlen(yytext));
+                strncpy(yylval.str, yytext, strlen(yytext));
+                return(num);//printf("num         "); ECHO; printf("\n");
+}
+{boollit}       {
+                yylval.str = malloc(strlen(yytext));
+                strncpy(yylval.str, yytext, strlen(yytext));
+                return(boollit);//printf("boollit     "); ECHO; printf("\n");
+}
+{ident}         {
+                yylval.str = malloc(strlen(yytext));
+                strncpy(yylval.str, yytext, strlen(yytext));
+                return(ident);//printf("ident       "); ECHO; printf("\n");
+}
 \(              return(LP);//printf("LP          "); ECHO; printf("\n");
 \)              return(LP);//printf("RP          "); ECHO; printf("\n");
 :=              return(ASGN);//printf("ASGN        "); ECHO; printf("\n");
 ;               return(SC);//printf("SC          "); ECHO; printf("\n");
-\*|div|mod      return(OP2);//printf("OP2         "); ECHO; printf("\n");
-\+|-            return(OP3);//printf("OP3         "); ECHO; printf("\n");
-=|!=|<|>|<=|>=  return(OP3);//printf("OP4         "); ECHO; printf("\n");
+{OP2}           {
+                yylval.str = malloc(strlen(yytext));
+                strncpy(yylval.str, yytext, strlen(yytext));
+                return(OP2);//printf("OP2         "); ECHO; printf("\n");
+}
+{OP3}           {
+                yylval.str = malloc(strlen(yytext));
+                strncpy(yylval.str, yytext, strlen(yytext));
+                return(OP3);//printf("OP3         "); ECHO; printf("\n");
+}
+{OP4}           {
+                yylval.str = malloc(strlen(yytext));
+                strncpy(yylval.str, yytext, strlen(yytext));
+                return(OP4); //printf("OP4         "); ECHO; printf("\n");
+}
 if              return(IF);//printf("IF          "); ECHO; printf("\n");
 then            return(THEN);//printf("THEN        "); ECHO; printf("\n");
 else            return(ELSE);//printf("ELSE        "); ECHO; printf("\n");

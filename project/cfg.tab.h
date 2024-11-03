@@ -84,7 +84,30 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+union YYSTYPE
+{
+#line 9 "cfg.y"
+
+    char* str;
+    node_factor* factor;
+    node_term* term;
+    node_simple_expression* simpleExpression;
+    node_expression* expression;
+    node_write_int* writeInt;
+    node_while_statement* whileStatement;
+    node_else_clause* elseClause;
+    node_if_statement* ifStatement;
+    node_assignment* assignment;
+    node_statement* statement;
+    node_statement_sequence* statementSequence;
+    node_type* type;
+    node_declarations* declarations;
+    node_program* program;
+
+#line 108 "cfg.tab.h"
+
+};
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif

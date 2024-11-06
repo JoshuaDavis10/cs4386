@@ -79,6 +79,8 @@ program:
 declarations:
     /*empty*/ {
         printf("declarations:\n");
+        node_declarations* ptr = NULL;
+        $$ = ptr;
     }
     | VAR ident AS type SC declarations {
         printf("declarations: VAR ident AS type SC declarations (ident = %s)\n", $2);
@@ -116,6 +118,8 @@ type:
 statementSequence:
     /*empty*/ {
         printf("statementSequence:\n");
+        node_statement_sequence* ptr = NULL;
+        $$ = ptr;
     }
     | statement SC statementSequence {
         printf("statementSequence: statement SC statementSequence\n");
@@ -201,6 +205,8 @@ ifStatement:
 elseClause:
     /*empty*/ {
         printf("elseClause:\n");
+        node_else_clause* ptr = NULL;
+        $$ = ptr;
     }
     | ELSE statementSequence {
         printf("elseClause: ELSE statementSequence\n");

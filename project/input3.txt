@@ -8,7 +8,7 @@ begin
 
     if SMALLER > BIGGER then
         TEMP := SMALLER ;
-        TEMP := ( 1 * 1 ) + 4 ;
+        TEMP := ( 1 ) * 4 ;
         SMALLER := BIGGER ;
         BIGGER := TEMP ;
     end ;
